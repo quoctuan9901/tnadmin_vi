@@ -1,0 +1,13 @@
+User-agent: Googlebot
+User-agent: googlebot-image
+User-agent: googlebot-mobile
+User-agent: Bing
+User-agent: BingBot
+User-agent: MSNBot
+User-agent: Slurp
+User-agent: yahoo-mmcrawler
+User-agent: facebookexternalhit
+User-agent: coccoc
+
+User-agent: *
+Disallow:
