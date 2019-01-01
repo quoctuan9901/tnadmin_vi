@@ -13,7 +13,7 @@ class EditRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,14 @@ class EditRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'txtPage'           => 'required',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'txtPage.required'           => 'Vui lòng nhập tên trang'
         ];
     }
 }

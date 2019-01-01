@@ -18,6 +18,18 @@
 					<li><a href="{{ route('admin.category.create') }}"><i class="icon-folder-plus"></i> Thêm Thể Loại</a></li>
 				</ul>
 			</li>
+
+			<li class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown">
+					<i class="icon-folder position-left"></i> Trang <span class="caret"></span>
+				</a>
+
+				<ul class="dropdown-menu width-200">
+					<li class="dropdown-header">Quản Lý Nội Dung Trang</li>
+					<li><a href="{{ route('admin.pages') }}"><i class="icon-folder-open"></i> Danh Sách Trang</a></li>
+					<li><a href="{{ route('admin.pages.create') }}"><i class="icon-folder-plus"></i> Thêm Trang</a></li>
+				</ul>
+			</li>
 			
 			<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown">

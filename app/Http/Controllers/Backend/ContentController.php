@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Page;
+use App\Models\PageContent;
+use DateTime;
+use Illuminate\Http\Request;
 
 class ContentController extends Controller
 {
@@ -12,9 +15,11 @@ class ContentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($page)
     {
-        //
+        $data["page"]    = Page::findOrFail($page);
+        $data["content"] = PageContent::where('page_id', $page)->get()->toArray();
+        return view('backend.module.content.list',$data);
     }
 
     /**
@@ -22,9 +27,10 @@ class ContentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($page)
     {
-        //
+        $data["page"] = Page::findOrFail($page);
+        return view ('backend.module.content.add',$data);
     }
 
     /**
@@ -33,9 +39,23 @@ class ContentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$page)
     {
-        //
+        $content             = new PageContent;
+        $content->code       = $request->txtCode;
+        $content->content_vi = $request->txtContentVi;
+        if (env('APP_LANG')) {
+            $content->content_en = $request->txtContentEn;
+        }
+        $content->page_id    = $page;
+        $content->created_at = new DateTime;
+        $content->save();
+
+        if ($request->btnSave) {
+            return redirect()->route('admin.content.create',['page' => $page])->with('success','Add A Successful Content');
+        } else {
+            return redirect()->route('admin.content.index',['page' => $page])->with('success','Add A Successful Content');
+        }
     }
 
     /**
@@ -55,9 +75,11 @@ class ContentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($page,$id)
     {
-        //
+        $data["page"] = Page::findOrFail($page);
+        $data["content"]  = PageContent::findOrFail($id);
+        return view('backend.module.content.edit',$data);
     }
 
     /**
@@ -67,9 +89,23 @@ class ContentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $page,$id)
     {
-        //
+        $content             = PageContent::findOrFail($id);
+        $content->code       = $request->txtCode;
+        $content->content_vi = $request->txtContentVi;
+        if (env('APP_LANG')) {
+            $content->content_en = $request->txtContentEn;
+        }
+        $content->page_id    = $page;
+        $content->updated_at = new DateTime;
+        $content->save();
+
+        if ($request->btnSave) {
+            return redirect()->route('admin.content.create',['page' => $page])->with('success','Update A Successful Content');
+        } else {
+            return redirect()->route('admin.content.index',['page' => $page])->with('success','Update A Successful Content');
+        }
     }
 
     /**
@@ -78,8 +114,11 @@ class ContentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($page,$id)
     {
-        //
+        $content  = PageContent::findOrFail($id);
+        $content->delete();
+
+        return redirect()->route('admin.content.index',['page' => $page])->with('success','Delete A Successful Content');
     }
 }

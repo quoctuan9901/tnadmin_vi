@@ -15,6 +15,13 @@ class CreatePageContentsTable extends Migration
     {
         Schema::create('page_contents', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('code');
+            $table->text('content_vi');
+            if (env('APP_LANG')) {
+                $table->text('content_en');
+            }
+            $table->integer('page_id')->unsigned();
+            $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');
             $table->timestamps();
         });
     }

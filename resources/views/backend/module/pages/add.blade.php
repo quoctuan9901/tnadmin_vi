@@ -1,5 +1,5 @@
 @extends ('backend.master')
-@section ('back',route('admin.tags'))
+@section ('back',route('admin.pages'))
 @section ('title','Thêm Trang')
 @section ('controller','Trang')
 @section ('action','Thêm')
@@ -7,7 +7,7 @@
 <form action="" method="POST" accept-charset="utf-8">
 	{{ csrf_field() }}
 
-	@include ('backend.blocks.button',['exit' => route('admin.page')])
+	@include ('backend.blocks.button',['exit' => route('admin.pages')])
 
 	@include ('backend.blocks.alert')
 
@@ -33,6 +33,6 @@
 		</div>
 	</div>
 
-	@include ('backend.blocks.button_bottom',['exit' => route('admin.page')])
+	@include ('backend.blocks.button_bottom',['exit' => route('admin.pages')])
 </form>
 @endsection

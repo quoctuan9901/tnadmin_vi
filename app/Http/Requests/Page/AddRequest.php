@@ -13,7 +13,7 @@ class AddRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,15 @@ class AddRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'txtPage'           => 'required|unique:pages,name',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'txtPage.required'           => 'Vui lòng nhập tên trang',
+            'txtPage.unique'             => 'Tên trang này đã tồn tại, vui lòng nhập tên trang khác',
         ];
     }
 }

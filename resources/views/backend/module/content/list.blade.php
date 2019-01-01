@@ -1,14 +1,19 @@
 @extends ('backend.master')
-@section ('back',route('admin.pages'))
-@section ('title','Danh Sách Trang')
-@section ('controller','Trang')
+@section ('back',route('admin.content.index',['page' => $page["id"]]))
+@section ('title','Danh Sách Nội Dung')
+@section ('controller','Nội Dung')
 @section ('action','Danh Sách')
 @section ('content')
 @include ('backend.blocks.alert')
 <div class="col-md-12">
+	<div class="panel panel-body border-top-primary text-left">
+		<a href="{{ route('admin.content.create',['page' => $page["id"]])  }}" class="btn btn-success btn-labeled"><b><i class="icon-close2"></i></b> Thêm</a>
+	</div>
+</div>
+<div class="col-md-12">
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h5 class="panel-title">Danh Sách Trang</h5>
+			<h5 class="panel-title">Danh Sách Nội Dung: {{ $page["name"] }}</h5>
 			<div class="heading-elements">
 				<ul class="icons-list">
             		<li><a data-action="collapse"></a></li>
@@ -21,22 +26,22 @@
 		<table class="table table-bordered table-hover datatable-button-init-basic">
 			<thead>
 				<tr>
-					<th width="80px">ID</th>
-					<th>Trang</th>
-					<th width="250px">Nội dung</th>
+					<th>Code</th>
+					<th>Nội dung tiếng Việt</th>
+					<th>Nội dung tiếng Anh</th>
 					<th width="100px">Hoạt Động</th>
 				</tr>
 			</thead>
 			<tbody>
-				@foreach ($page as $p)
+				@foreach ($content as $c)
 				<tr>
-					<td>{{ $loop->iteration }}</td>
-					<td><a href="{{ route('admin.pages.edit',['id' => $p["id"]]) }}" target="_blank">{{ $p["name"] }}</a></td>
-					<td><a href="{{ route('admin.content.index',['page' => $p["id"]]) }}" target="_blank">Cập nhật nội dung trang</a></td>
+					<td>{{ $c["code"] }}</td>
+					<td><a href="{{ route('admin.content.edit',['page' => $page["id"],'id' => $c["id"]]) }}" target="_blank">{{ $c["content_vi"] }}</a></td>
+					<td><a href="{{ route('admin.content.edit',['page' => $page["id"],'id' => $c["id"]]) }}" target="_blank">{{ $c["content_en"] }}</a></td>
 					<td class="text-center">
 						<ul class="icons-list">
-							<li class="text-primary-600"><a href="{{ route('admin.pages.edit',['id' => $p["id"]]) }}" data-popup="tooltip" title="Edit"><i class="icon-pencil7"></i></a></li>
-							<li class="text-danger-600"><a href="{{ route('admin.pages.destroy',['id' => $p["id"]]) }}" data-popup="tooltip" title="Remove" class="sweet_warning"><i class="icon-trash"></i></a></li>
+							<li class="text-primary-600"><a href="{{ route('admin.content.edit',['page' => $page["id"],'id' => $c["id"]]) }}" data-popup="tooltip" title="Edit"><i class="icon-pencil7"></i></a></li>
+							<li class="text-danger-600"><a href="{{ route('admin.content.destroy',['page' => $page["id"],'id' => $c["id"]]) }}" data-popup="tooltip" title="Remove" class="sweet_warning"><i class="icon-trash"></i></a></li>
 						</ul>
 					</td>
 				</tr>

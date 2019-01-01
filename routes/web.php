@@ -10,12 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('lang/{lang}', function ($lang) {
+    Session::put('lang',$lang);
+    return redirect()->back();
+})->name('lang');
 
-Route::namespace('Frontend')->group(function () {
-    Route::get('/', function () {
-	    return view('welcome');
-	});
-});
+
 
 Route::get('refresh-captcha', function () {
     return response()->json(['captcha'=> captcha_img()]);
@@ -188,7 +188,27 @@ Route::group(['prefix' => 'tnadmin','namespace' => 'Backend','middleware' => 'au
 		Route::get('login/delete-all', 'LogController@destroyAllLogLogin')->name('admin.log.delete_all_login')->middleware('role:delete_all_login');
 	});
 
-	Route::group(['prefix' => 'ajax'], function () {
+    Route::group(['prefix' => 'pages'], function () {
+        Route::get('/', 'PageController@index')->name('admin.pages');
+        Route::get('list', 'PageController@index')->name('admin.pages.index');
+        Route::get('add', 'PageController@create')->name('admin.pages.create');
+        Route::post('add', 'PageController@store')->name('admin.pages.store');
+        Route::get('edit/{id}', 'PageController@edit')->name('admin.pages.edit');
+        Route::post('edit/{id}', 'PageController@update')->name('admin.pages.update');
+        Route::get('delete/{id}', 'PageController@destroy')->name('admin.pages.destroy');
+    });
+
+    Route::group(['prefix' => 'content'], function () {
+        Route::get('list/{page}', 'ContentController@index')->name('admin.content.index');
+        Route::get('add/{page}', 'ContentController@create')->name('admin.content.create');
+        Route::post('add/{page}', 'ContentController@store')->name('admin.content.store');
+        Route::get('edit/{page}/{id}', 'ContentController@edit')->name('admin.content.edit');
+        Route::post('edit/{page}/{id}', 'ContentController@update')->name('admin.content.update');
+        Route::get('delete/{page}/{id}', 'ContentController@destroy')->name('admin.content.destroy');
+    });
+
+
+    Route::group(['prefix' => 'ajax'], function () {
 		Route::post('switch', 'AjaxController@switch_change')->name('admin.ajax.switch');
 		Route::post('position', 'AjaxController@position')->name('admin.ajax.position');
 		Route::get('attribute', 'AjaxController@attribute')->name('admin.ajax.attribute');
