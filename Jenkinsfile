@@ -6,5 +6,10 @@ pipeline {
         sh 'cat index.php'
       }
     }
+    stage('Check file 2') {
+      steps {
+        sh 'cat .env'
+      }
+    }
   }
 }
